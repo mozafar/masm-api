@@ -35,6 +35,7 @@ class DevicesTest extends TestCase
         $response = $this->getJson("/api/check-subscription?token=$token");
 
         $response->assertOk();
+        $this->assertTrue(!empty($response['status']));
     }
 
     /** @test */
