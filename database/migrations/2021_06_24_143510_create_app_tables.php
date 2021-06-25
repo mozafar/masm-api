@@ -35,7 +35,7 @@ class CreateAppTables extends Migration
             $table->string('language', 2);
         });
 
-        Schema::create('app_device', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('device_id');
             $table->foreign('device_id')->references('id')->on('devices');
@@ -56,7 +56,7 @@ class CreateAppTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('app_device');
+        Schema::dropIfExists('subscriptions');
         Schema::dropIfExists('devices');
         Schema::dropIfExists('apps');
         Schema::dropIfExists('oses');

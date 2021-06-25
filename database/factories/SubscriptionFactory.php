@@ -3,18 +3,18 @@
 namespace Database\Factories;
 
 use App\Models\App;
-use App\Models\AppDevice;
+use App\Models\Subscription;
 use App\Models\Device;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AppDeviceFactory extends Factory
+class SubscriptionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = AppDevice::class;
+    protected $model = Subscription::class;
 
     /**
      * Define the model's default state.

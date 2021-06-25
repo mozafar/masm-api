@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Str;
 
-class AppDevice extends Pivot
+class Subscription extends Pivot
 {
     use HasFactory;
-    
+    protected $table = 'subscriptions';
     public $incrementing = true;
     public $timestamps = false;
     protected $guarded = [];

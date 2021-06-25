@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class Device extends Model
@@ -26,6 +24,6 @@ class Device extends Model
 
     public function apps()
     {
-        return $this->belongsToMany(App::class)->using(AppDevice::class);;
+        return $this->belongsToMany(App::class)->using(Subscription::class);;
     }
 }

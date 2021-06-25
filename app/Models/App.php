@@ -14,7 +14,7 @@ class App extends Model
 
     public function devices()
     {
-        return $this->belongsToMany(Device::class)->using(AppDevice::class);
+        return $this->belongsToMany(Device::class)->using(Subscription::class);
     }
 
     public function os()
