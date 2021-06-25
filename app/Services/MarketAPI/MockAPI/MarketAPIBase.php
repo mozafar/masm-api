@@ -2,14 +2,20 @@
 
 namespace App\Services\MarketAPI\MockAPI;
 
+use App\Models\App;
 use Faker\Factory as Faker;
 
 class MarketAPIBase
 {
+    protected $app;
+
+    public function __construct(?App $app) {
+        $this->app = $app;
+    }
     
-    public function verifyReciept(string $reciept): bool|string
+    public function verifyReceipt(string $receipt): bool|string
     {
-        if ((intval(substr($reciept, 0, -1)) % 2) !== 0) {
+        if ((intval(substr($receipt, -1, 1)) % 2) !== 0) {
             return $this->getRandomDate();
         }
 

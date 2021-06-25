@@ -25,9 +25,7 @@ class DeviceRegisterRequest extends FormRequest
     {
         return [
             'u_id' => ['required', 'integer'],
-            'app_id' => ['required', 'integer'],
             'os_id' => ['required', 'integer'],
-            'u_id' => ['required', 'integer'],
             'language' => ['required', 'string'],
         ];
     }

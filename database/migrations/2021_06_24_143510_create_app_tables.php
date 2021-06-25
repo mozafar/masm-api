@@ -30,25 +30,23 @@ class CreateAppTables extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('u_id');
-            $table->unsignedBigInteger('app_id');
-            $table->foreign('app_id')->references('id')->on('apps');
             $table->unsignedBigInteger('os_id');
             $table->foreign('os_id')->references('id')->on('oses');
             $table->string('language', 2);
-            $table->string('token', 64);
         });
 
-        Schema::create('subscriptions', function (Blueprint $table) {
+        Schema::create('app_device', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('device_id');
             $table->foreign('device_id')->references('id')->on('devices');
             $table->unsignedBigInteger('app_id');
             $table->foreign('app_id')->references('id')->on('apps');
-            $table->string('receipt');
-            $table->enum('status', ['pending', 'active', 'expired', 'cancelled']);
-            $table->timestamp('expires_at');
-            $table->primary(['device_id', 'app_id']);
+            $table->string('token', 64)->nullable();
+            $table->string('receipt')->nullable();
+            $table->enum('status', ['pending', 'active', 'expired', 'cancelled'])->default('pending');
+            $table->timestamp('expires_at')->nullable();
+            $table->unique(['device_id', 'app_id']);
         });
-
     }
 
     /**
@@ -58,7 +56,7 @@ class CreateAppTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscriptions');
+        Schema::dropIfExists('app_device');
         Schema::dropIfExists('devices');
         Schema::dropIfExists('apps');
         Schema::dropIfExists('oses');

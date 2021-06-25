@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\App;
+use App\Models\AppDevice;
 use App\Models\OS;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,30 +19,33 @@ class DevicesTest extends TestCase
     {
         $os = (OS::count() < 2) ? OS::factory()->create() : OS::all()->random();
         $response = $this->postJson('/api/register', [
-                'u_id' => 1,
-                'app_id' => App::factory()->create()->id,
-                'os_id' => $os->id,
-                'language' => 'EN'
-            ]);
-
+            'u_id' => 1,
+            'app_id' => App::factory()->create()->id,
+            'os_id' => $os->id,
+            'language' => 'EN'
+        ]);
         $response->assertOk();
+        $this->assertTrue(!empty($response['token']));
     }
 
     /** @test */
     public function a_device_can_check_subscription()
     {
-        // $os = (OS::count() < 2) ? OS::factory()->create() : OS::all()->random();
-        // $response = $this->postJson('/api/check-subscription', []);
+        $token = AppDevice::factory()->make()->createToken();
+        $response = $this->getJson("/api/check-subscription?token=$token");
 
-        // $response->assertOk();
+        $response->assertOk();
     }
 
     /** @test */
     public function a_device_can_purchase_subscription()
     {
-        // $os = (OS::count() < 2) ? OS::factory()->create() : OS::all()->random();
-        // $response = $this->postJson('/api/purchase', []);
+        $token = AppDevice::factory()->make()->createToken();
+        $response = $this->postJson('/api/purchase', [
+            'token' => $token,
+            'receipt' => '12345'
+        ]);
 
-        // $response->assertOk();
+        $response->assertOk();
     }
 }

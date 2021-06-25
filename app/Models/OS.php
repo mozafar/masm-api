@@ -11,4 +11,14 @@ class OS extends Model
 
     protected $table = 'oses';
     public $timestamps = false;
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class);
+    }
+
+    public function apps()
+    {
+        return $this->hasMany(App::class);
+    }
 }

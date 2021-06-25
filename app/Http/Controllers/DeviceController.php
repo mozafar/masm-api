@@ -3,33 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DeviceRegisterRequest;
+use App\Models\AppDevice;
 use App\Models\Device;
 use App\Services\MarketAPI\MarketAPI;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class DeviceController extends Controller
 {
     public function register(DeviceRegisterRequest $request)
     {
-        MarketAPI::driver('google-play')->verifySubscription('123123123');
-        $data = array_merge($request->validated(), [
-            'token' => hash('sha256', $plainTextToken = Str::random(40))
+        $device = Device::create($request->validated());
+        $appDevice = AppDevice::create([
+            'device_id' => $device->id,
+            'app_id' => $request->input('app_id')
         ]);
-        $device = Device::create($data);
 
         return response()->json([
-            'token' => $device->id . '|' . $plainTextToken
+            'token' => $appDevice->createToken()
         ]);
     }
 
     public function checkSubscription(Request $request)
     {
-        MarketAPI::driver('google-play')->verifySubscription('123123123');
+        $subscription = AppDevice::findByTokenOrFail($request->input('token'));
+
+        return response()->json([
+            'status' => $subscription->status
+        ]);
     }
 
     public function purchase(Request $request)
     {
-        MarketAPI::verifyReciept();
+        $appDevice = AppDevice::findByTokenOrFail($request->input('token'));
+        $verifyResult = MarketAPI::forApp($appDevice->app)->verifyReceipt($request->input('receipt'));
+        if ($verifyResult) {
+            $appDevice->receipt = $request->input('receipt');
+            $appDevice->expires_at = $verifyResult;
+            $appDevice->status = 'active';
+            $appDevice->save();
+            return response()->json([
+                $verifyResult
+            ]);
+        }
+
+        return response()->json([], 500);
     }
 }

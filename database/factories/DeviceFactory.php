@@ -27,10 +27,8 @@ class DeviceFactory extends Factory
         $os = (OS::count() < 2) ? OS::factory()->create() : OS::all()->random();
         return [
             'u_id' => $this->faker->randomNumber(null, false),
-            'app_id' => App::factory()->create()->id,
             'os_id' => $os->id,
-            'language' => $this->faker->randomElement(['EN', 'FA', 'AR', 'TR']),
-            'token' => hash('sha256', Str::random(40))
+            'language' => $this->faker->randomElement(['EN', 'FA', 'AR', 'TR'])
         ];
     }
 }
