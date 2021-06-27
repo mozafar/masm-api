@@ -5,17 +5,26 @@ namespace Tests\Feature;
 use App\Models\App;
 use App\Models\OS;
 use App\Models\Subscription;
+use App\Services\Callback\Notifications\StatusChanged;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
-class DevicesTest extends TestCase
+class APITest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        
+        Notification::fake();
+    }
+
     /** @test */
-    public function a_device_can_register()
+    public function it_can_register()
     {
         $os = (OS::count() < 2) ? OS::factory()->create() : OS::all()->random();
         $response = $this->postJson('/api/register', [
@@ -29,7 +38,7 @@ class DevicesTest extends TestCase
     }
 
     /** @test */
-    public function when_device_registers_multiple_times_should_get_different_tokens()
+    public function it_should_get_different_tokens_for_multiple_registrations()
     {
         $os = (OS::count() < 2) ? OS::factory()->create() : OS::all()->random();
         $response1 = $this->postJson('/api/register', [
@@ -54,23 +63,35 @@ class DevicesTest extends TestCase
     }
 
     /** @test */
-    public function a_device_can_check_subscription()
+    public function it_can_check_subscription()
     {
-        $token = Subscription::factory()->make()->createToken();
+        $subscription = Subscription::factory()->create();
+        $token = $subscription->createToken();
         $response = $this->getJson("/api/check-subscription?token=$token");
-
+        
+        $app = $subscription->app()->first(); 
+        Notification::assertSentTo(
+            [$app], StatusChanged::class
+        );
         $response->assertOk();
         $this->assertTrue(!empty($response['status']));
     }
 
     /** @test */
-    public function a_device_can_purchase_subscription()
+    public function it_can_purchase_subscription()
     {
-        $token = Subscription::factory()->make()->createToken();
+        $subscription = Subscription::factory()->create();
+        $token = $subscription->createToken();
+
         $response = $this->postJson('/api/purchase', [
             'token' => $token,
             'receipt' => '12345'
         ]);
+
+        $app = $subscription->app()->first(); 
+        Notification::assertSentTo(
+            [$app], StatusChanged::class
+        );
 
         $response->assertOk();
     }

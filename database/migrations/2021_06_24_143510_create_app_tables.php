@@ -24,6 +24,7 @@ class CreateAppTables extends Migration
             $table->foreign('os_id')->references('id')->on('oses');
             $table->string('username');
             $table->string('password');
+            $table->string('callback_url');
             $table->unique(['id', 'os_id']);
         });
 

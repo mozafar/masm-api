@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\MarketAPI;
+namespace App\Services\Callback;
 
 use Illuminate\Support\ServiceProvider;
 
-class MarketAPIServiceProvider extends ServiceProvider
+class CallbackServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -13,7 +13,7 @@ class MarketAPIServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/config.php', 'market-api');
+        $this->mergeConfigFrom(__DIR__ . '/config.php', 'callback');
     }
 
     /**
@@ -24,7 +24,7 @@ class MarketAPIServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/config.php' => config_path('market-api'),
+            __DIR__.'/config.php' => config_path('callback'),
         ]);
     }
 }

@@ -2,24 +2,53 @@
 
 namespace App\Models;
 
+use App\Services\Callback\CallbackAttributes;
+use App\Services\Callback\SendCallback;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class Subscription extends Pivot
+class Subscription extends Pivot implements CallbackAttributes
 {
-    use HasFactory;
+    use HasFactory, SendCallback;
+    
     protected $table = 'subscriptions';
     public $incrementing = true;
     public $timestamps = false;
     protected $guarded = [];
+
+    protected static function booted()
+    {
+        static::saving(self::sendCallback());
+    }
+
+    public function getAppId(): string
+    {
+        return $this->app_id;
+    }
+
+    public function getDeviceId(): string
+    {
+        return $this->device_id;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
 
     public function createToken()
     {
         $plainTextToken = Str::random(40);
         $this->token = hash('sha256', $plainTextToken);
         $this->save();
+        Log::debug('SUBSCRIPTION_MODEL:', [
+            'sub' => $this->toArray(),
+            'app' => $this->app()->first() ?? 'null',
+            'device' => $this->device()->first() ?? 'null'
+        ]);
         return $this->id.'|'.$plainTextToken;
     }
 

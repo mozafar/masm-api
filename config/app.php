@@ -174,7 +174,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
         App\Services\MarketAPI\MarketAPIServiceProvider::class,
+        App\Services\Callback\CallbackServiceProvider::class,
 
     ],
 

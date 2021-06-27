@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Services\Callback\CallbackSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
-class App extends Model
+class App extends Model implements CallbackSubject
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     public $timestamps = false;
     protected $guarded = [];
@@ -20,5 +22,10 @@ class App extends Model
     public function os()
     {
         return $this->belongsTo(OS::class);
+    }
+
+    public function callbackUrl(): string
+    {
+        return $this->callback_url;
     }
 }

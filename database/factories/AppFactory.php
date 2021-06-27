@@ -26,7 +26,8 @@ class AppFactory extends Factory
         return [
             'os_id' => $os->id,
             'username' => $this->faker->userName(),
-            'password' => $this->faker->password()
+            'password' => $this->faker->password(),
+            'callback_url' => $this->faker->url()
         ];
     }
 
