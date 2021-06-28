@@ -24,6 +24,11 @@ class Subscription extends Pivot implements CallbackAttributes
         static::saving(self::sendCallback());
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
     public function getAppId(): string
     {
         return $this->app_id;
@@ -44,11 +49,7 @@ class Subscription extends Pivot implements CallbackAttributes
         $plainTextToken = Str::random(40);
         $this->token = hash('sha256', $plainTextToken);
         $this->save();
-        Log::debug('SUBSCRIPTION_MODEL:', [
-            'sub' => $this->toArray(),
-            'app' => $this->app()->first() ?? 'null',
-            'device' => $this->device()->first() ?? 'null'
-        ]);
+        
         return $this->id.'|'.$plainTextToken;
     }
 
