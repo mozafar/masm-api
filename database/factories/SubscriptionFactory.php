@@ -27,7 +27,7 @@ class SubscriptionFactory extends Factory
             'device_id' => Device::factory()->create()->id,
             'app_id' => App::factory()->create()->id,
             'receipt' => $this->faker->randomNumber(8, true),
-            'status' => $this->faker->randomElement(['pending', 'active', 'expired', 'cancelled']),
+            'status' => $this->faker->randomElement(['pending', 'active', 'expired', 'canceled']),
             'expires_at' => $this->faker->dateTimeThisYear('now', 'UTC')
         ];
     }

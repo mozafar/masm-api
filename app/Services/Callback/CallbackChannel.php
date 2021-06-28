@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Http;
 
 class CallbackChannel
 {
-    public function __construct()
-    {
-
-    }
-
     public function send($notifiable, Notification $notification): Response
     {
         if (empty($url = $notifiable->callbackUrl())) {

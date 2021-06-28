@@ -4,37 +4,31 @@ namespace App\Services\MarketAPI;
 
 use App\Models\App;
 use App\Models\OS;
+use App\Models\Subscription;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Manager;
 
 class MarketAPIManager extends Manager
 {   
-    protected $os;
-    protected $app;
+    protected $subscription;
 
-    public function forOS(OS $os)
+    public function forSubscription(?Subscription $subscription)
     {
-        $this->os = $os;
-        return $this->driver($this->getStore());
-    }
-
-    public function forApp(App $app)
-    {
-        $this->app = $app;
-        $this->os = $app->os;
+        $this->subscription = $subscription;
+        $this->os = $subscription->app->os;
         return $this->driver($this->getStore());
     }
 
     public function createAppStoreDriver(): MarketAPIInterface
     {
         $driver = $this->getConfigDriver();
-        return resolve(config("market-api.$driver.app-store"), ['app' => $this->app]);
+        return resolve(config("market-api.$driver.app-store"), ['subscription' => $this->subscription]);
     }
 
     public function createGooglePlayDriver(): MarketAPIInterface
     {
         $driver = $this->getConfigDriver();
-        return resolve(config("market-api.$driver.google-play"), ['app' => $this->app]);
+        return resolve(config("market-api.$driver.google-play"), ['subscription' => $this->subscription]);
     }
 
     public function getDefaultDriver()

@@ -4,7 +4,7 @@ namespace App\Services\MarketAPI;
 
 /**
  * @method static mixed function verifyReciept(string $reciept)
- * @method static void function verifySubscription()
+ * @method static void function checkSubscription()
  */
 
 use Illuminate\Support\Facades\Facade;

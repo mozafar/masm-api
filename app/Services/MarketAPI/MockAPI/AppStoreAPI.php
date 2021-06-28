@@ -16,9 +16,4 @@ class AppStoreAPI extends MarketAPIBase implements MarketAPIInterface
 
         return false;
     }
-
-    public function verifySubscription()
-    {
-
-    }
 }

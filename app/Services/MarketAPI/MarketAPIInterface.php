@@ -5,5 +5,5 @@ namespace App\Services\MarketAPI;
 interface MarketAPIInterface
 {
     public function verifyReceipt(string $reciept): bool|string;
-    public function verifySubscription();
+    public function checkSubscription(?string $reciept): string;
 }

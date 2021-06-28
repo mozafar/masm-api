@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Subscription;
 use App\Services\MarketAPI\MarketAPI;
 use Carbon\Carbon;
 

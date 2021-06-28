@@ -2,17 +2,19 @@
 
 namespace App\Services\MarketAPI\MockAPI;
 
-use App\Models\App;
+use App\Models\Subscription;
+use App\Services\MarketAPI\Exceptions\RateLimitException;
 use Faker\Factory as Faker;
 
 class MarketAPIBase
 {
-    protected $app;
+    protected $subscription;
 
-    public function __construct(?App $app) {
-        $this->app = $app;
+    public function __construct(?Subscription $subscription)
+    {
+        $this->subscription = $subscription;
     }
-    
+
     public function verifyReceipt(string $receipt): bool|string
     {
         if ((intval(substr($receipt, -1, 1)) % 2) !== 0) {
@@ -22,9 +24,13 @@ class MarketAPIBase
         return false;
     }
 
-    public function verifySubscription()
+    public function checkSubscription(?string $receipt): string
     {
-
+        $receipt = $receipt ?? $this->subscription->receipt;
+        if ($receipt % 4) {
+            throw new RateLimitException(null);
+        }
+        return array_rand(['expired', 'canceled']);
     }
 
     protected function getRandomDate($tz = null): string

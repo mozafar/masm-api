@@ -36,7 +36,7 @@ class DeviceController extends Controller
     public function purchase(Request $request)
     {
         $subscription = Subscription::findByTokenOrFail($request->input('token'));
-        $verifyResult = MarketAPI::forApp($subscription->app)->verifyReceipt($request->input('receipt'));
+        $verifyResult = MarketAPI::forSubscription($subscription)->verifyReceipt($request->input('receipt'));
         if ($verifyResult) {
             $subscription->receipt = $request->input('receipt');
             $subscription->expires_at = $verifyResult;
