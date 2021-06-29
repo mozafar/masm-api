@@ -41,6 +41,19 @@ class StatusChanged extends Notification implements ShouldQueue
         return [CallbackChannel::class];
     }
 
+    /**
+     * Determine which queues should be used for each notification channel.
+     *
+     * @return array
+     */
+    public function viaQueues()
+    {
+        return [
+            CallbackChannel::class => 'callback',
+        ];
+    }
+
+
     public function toCallback($notifiable)
     {
         return CallbackMessage::create([

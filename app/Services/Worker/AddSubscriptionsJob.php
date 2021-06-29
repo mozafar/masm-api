@@ -3,7 +3,7 @@
 namespace App\Services\Worker;
 
 use App\Models\Subscription;
-use App\Services\Worker\Events\SubscriptionsProcessedEvent;
+use App\Services\Worker\Events\SubscriptionsProccessedEvent;
 use Illuminate\Bus\Batch;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -21,14 +21,21 @@ class AddSubscriptionsJob implements ShouldQueue
     
     public function handle()
     {
-        Log::debug('START');
+        if (App::runningUnitTests()) {
+            $this->createTestBatch();
+        }
+
+        $this->createBatch();
+    }
+
+    private function createBatch()
+    {
         $batch = Bus::batch([])
             ->allowFailures() 
             ->finally(function () {
-                event(new SubscriptionsProcessedEvent());
+                SubscriptionsProccessedEvent::dispatch();
             })->dispatch();
-        Log::debug('BATCH CREATED');
-        
+
         Subscription::active()
             ->cursor()
             ->map(fn (Subscription $subscription) => $this->createCheckSubscriptionJob($subscription))
@@ -36,10 +43,24 @@ class AddSubscriptionsJob implements ShouldQueue
             ->chunk(1000)
             ->each(function (LazyCollection $jobs) use ($batch) {
                 $batch->add($jobs);
-            });
-
-        Log::debug('BATCHES JOBS: ' . $batch->totalJobs);
+            }); 
     }
+
+    private function createTestBatch()
+    {
+        $subscriptions = Subscription::active()
+            ->get()
+            ->map(fn (Subscription $subscription) => $this->createCheckSubscriptionJob($subscription))
+            ->filter()
+            ->toArray();
+
+        $batch = Bus::batch($subscriptions)
+            ->allowFailures() 
+            ->finally(function () {
+                SubscriptionsProccessedEvent::dispatch();
+            })->dispatch(); 
+    }
+
 
     private function createCheckSubscriptionJob(Subscription $subscription): CheckSubscriptionJob
     {
