@@ -38,8 +38,13 @@ Subscription::active()
         $batch->add($jobs);
     });
 ```
-as soon as first chunk added to queue `CheckSubscriptionJob` starts for each subscription and checks the status using ‍`MarketAPI`. to speed up adding in invoking jobs `redis`. every job in case of failure retried twice.
-
+as soon as first chunk added to queue `CheckSubscriptionJob` starts for each subscription and checks the status using ‍`MarketAPI`. to speed up adding in invoking jobs `redis`. every job in case of failure retried twice.  
+To start woker use:
+```sh
+php artisan horizon
+```
+more details are availabe here:
+[Laravel Horizon](https://laravel.com/docs/8.x/horizon#running-horizon)
 ## DB
 - DB schema in SQL fromat is available in `database/db.sql`.
 - Model factories added for all models
