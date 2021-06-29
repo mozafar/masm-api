@@ -17,6 +17,8 @@ class CheckSubscriptionJob implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 2;
+
     private $subscription;
 
     /**
@@ -36,11 +38,8 @@ class CheckSubscriptionJob implements ShouldQueue
      */
     public function handle()
     {
-        try {
-            $status = MarketAPI::forSubscription($this->subscription)->checkSubscription();
-        } catch (RateLimitException $e) {
-            $status = MarketAPI::forSubscription($this->subscription)->checkSubscription();
-        }
+        $status = MarketAPI::forSubscription($this->subscription)->checkSubscription();
+        
         if ($status === 'active') {
             $this->subscription->status = 'canceled';
             $this->subscription->save();

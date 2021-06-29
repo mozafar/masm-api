@@ -3,8 +3,7 @@
 namespace App\Services\MarketAPI;
 
 /**
- * @method static mixed function verifyReciept(string $reciept)
- * @method static void function checkSubscription()
+ * @method static \App\Services\MarketAPI\MarketAPIInterface forSubscription(?\App\Models\Subscription $subscription)
  */
 
 use Illuminate\Support\Facades\Facade;

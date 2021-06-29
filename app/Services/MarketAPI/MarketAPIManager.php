@@ -12,7 +12,7 @@ class MarketAPIManager extends Manager
 {   
     protected $subscription;
 
-    public function forSubscription(?Subscription $subscription)
+    public function forSubscription(?Subscription $subscription): MarketAPIInterface
     {
         $this->subscription = $subscription;
         $this->os = $subscription->app->os;
