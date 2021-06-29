@@ -26,7 +26,9 @@ class DeviceController extends Controller
     public function checkSubscription(Request $request)
     {
         $subscription = Subscription::findByTokenOrFail($request->input('token'));
-        
+        $checkResult = MarketAPI::forSubscription($subscription)->checkSubscription();
+        $subscription->status = $checkResult;
+        $subscription->save();
         return response()->json([
             'status' => $subscription->status
         ]);
