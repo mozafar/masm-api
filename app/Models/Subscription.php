@@ -16,7 +16,7 @@ class Subscription extends Pivot implements CallbackAttributes
     
     protected $table = 'subscriptions';
     public $incrementing = true;
-    public $timestamps = false;
+    public $timestamps = true;
     protected $guarded = [];
 
     protected static function booted()

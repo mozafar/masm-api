@@ -14,6 +14,11 @@ class App extends Model implements CallbackSubject
     public $timestamps = false;
     protected $guarded = [];
 
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }    
+
     public function devices()
     {
         return $this->belongsToMany(Device::class)->using(Subscription::class);

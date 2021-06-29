@@ -9,6 +9,7 @@ use App\Services\Callback\Notifications\StatusChanged;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -94,5 +95,25 @@ class APITest extends TestCase
         );
 
         $response->assertOk();
+    }
+
+    /** @test */
+    public function it_should_report_based_on_app_day_os()
+    {
+        $app = App::factory()
+            ->hasSubscriptions(100)
+            ->create();
+
+        $date = now()->format('Y-m-d');
+        $expected = $app->subscriptions()
+            ->select('status', DB::raw('count(*) as count'))
+            ->whereDate('updated_at', $date)
+            ->groupBy('status')
+            ->get()
+            ->toArray();
+
+        $response = $this->getJson("/api/report/apps/{$app->id}?date=$date");
+
+        $response->assertOk()->assertJson($expected);
     }
 }

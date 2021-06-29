@@ -7,7 +7,6 @@ use App\Models\Subscription;
 use App\Models\Device;
 use App\Services\MarketAPI\MarketAPI;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class DeviceController extends Controller
 {

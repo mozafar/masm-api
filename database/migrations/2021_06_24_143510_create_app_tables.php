@@ -46,7 +46,9 @@ class CreateAppTables extends Migration
             $table->string('receipt')->nullable();
             $table->enum('status', ['pending', 'active', 'canceled'])->default('pending');
             $table->timestamp('expires_at')->nullable();
+            $table->timestamps();
             $table->unique(['device_id', 'app_id']);
+            $table->index(['status']);
         });
     }
 
