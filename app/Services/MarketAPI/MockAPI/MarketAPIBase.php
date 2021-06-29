@@ -28,7 +28,7 @@ class MarketAPIBase
     {
         $receipt = $receipt ?? $this->subscription->receipt;
         
-        if ((intval(substr($receipt, -1, 1)) % 4) === 0) {
+        if ((intval(substr($receipt, -1, 1)) % 6) === 0) {
             throw new RateLimitException(null);
         }
         $statusArray = ['active', 'canceled'];
