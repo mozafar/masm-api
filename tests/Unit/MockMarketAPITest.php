@@ -34,12 +34,12 @@ class MockMarketAPITest extends TestCase
     }
 
     /** @test */
-    public function it_throws_rate_limit_exception_when_devide_receipt_by_4()
+    public function it_throws_rate_limit_exception_when_devide_receipt_by_6()
     {
         $this->expectException(RateLimitException::class);
         $this->expectExceptionCode(500);
 
-        MarketAPI::driver('google-play')->checkSubscription('12345678');
+        MarketAPI::driver('google-play')->checkSubscription('123456');
     }
 
     /**
