@@ -176,8 +176,6 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Services\MarketAPI\MarketAPIServiceProvider::class,
-        App\Services\Callback\CallbackServiceProvider::class,
-
     ],
 
     /*
