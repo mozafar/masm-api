@@ -26,7 +26,7 @@ class WorkerTest extends TestCase
         Queue::fake();
 
         AddSubscriptionsJob::dispatch();
-        
+
         Queue::assertPushed(AddSubscriptionsJob::class);
     }
 
@@ -42,11 +42,10 @@ class WorkerTest extends TestCase
             ->where('status', 'active')
             ->count();
 
-            
         Bus::fake([CheckSubscriptionJob::class]);
-        
+
         AddSubscriptionsJob::dispatch();
-            
+
         Bus::assertBatched(function (PendingBatch $batch) use ($countCreated) {
             return $batch->jobs->count() === $countCreated;
         });

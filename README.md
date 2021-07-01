@@ -1,3 +1,4 @@
+[![StyleCI](https://github.styleci.io/repos/379903317/shield?branch=develop)](https://github.styleci.io/repos/379903317?branch=develop)
 ## Services
 All services are availabe in `app/Services` and contains:
 ### MarketAPI:
@@ -7,7 +8,7 @@ use App\Models\Subscription;
 use App\Services\MarketAPI\MarketAPI;
 
 $subscription = Subscription::find(1);
-$status = MarketAPI::forSubscription($this->subscription)->checkSubscription();
+$status = MarketAPI::forSubscription($subscription)->checkSubscription();
 ```
 ### Callback:
 This module utilize laravel notifications system to send web request when a subscription status changes. it can bind to a model using `SendCallback` trait like this:

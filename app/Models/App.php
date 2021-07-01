@@ -17,7 +17,7 @@ class App extends Model implements CallbackSubject
     public function subscriptions()
     {
         return $this->hasMany(Subscription::class);
-    }    
+    }
 
     public function devices()
     {

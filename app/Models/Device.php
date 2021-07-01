@@ -19,11 +19,12 @@ class Device extends Model
         $plainTextToken = Str::random(40);
         $this->token = hash('sha256', $plainTextToken);
         $this->save();
+
         return $this->id.'|'.$plainTextToken;
     }
 
     public function apps()
     {
-        return $this->belongsToMany(App::class)->using(Subscription::class);;
+        return $this->belongsToMany(App::class)->using(Subscription::class);
     }
 }

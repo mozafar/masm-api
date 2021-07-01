@@ -18,7 +18,7 @@ use Illuminate\Support\LazyCollection;
 class AddSubscriptionsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    
+
     public function handle()
     {
         if (App::runningUnitTests()) {
@@ -32,7 +32,7 @@ class AddSubscriptionsJob implements ShouldQueue
     {
         // Create an empty batch to add jobs later
         $batch = Bus::batch([])
-            ->allowFailures() 
+            ->allowFailures()
             ->finally(function () {
                 SubscriptionsProccessedEvent::dispatch();
             })->dispatch();
@@ -45,7 +45,7 @@ class AddSubscriptionsJob implements ShouldQueue
             ->chunk(1000)
             ->each(function (LazyCollection $jobs) use ($batch) {
                 $batch->add($jobs);
-            }); 
+            });
     }
 
     private function createTestBatch(): void
@@ -57,12 +57,11 @@ class AddSubscriptionsJob implements ShouldQueue
             ->toArray();
 
         $batch = Bus::batch($subscriptions)
-            ->allowFailures() 
+            ->allowFailures()
             ->finally(function () {
                 SubscriptionsProccessedEvent::dispatch();
-            })->dispatch(); 
+            })->dispatch();
     }
-
 
     private function createCheckSubscriptionJob(Subscription $subscription): CheckSubscriptionJob
     {

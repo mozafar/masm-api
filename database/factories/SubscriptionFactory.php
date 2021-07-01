@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\App;
-use App\Models\Subscription;
 use App\Models\Device;
+use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SubscriptionFactory extends Factory
@@ -28,7 +28,7 @@ class SubscriptionFactory extends Factory
             'app_id' => App::factory()->create()->id,
             'receipt' => $this->faker->randomNumber(8, true),
             'status' => $this->faker->randomElement(['pending', 'active', 'canceled']),
-            'expires_at' => $this->faker->dateTimeThisYear('now', 'UTC')
+            'expires_at' => $this->faker->dateTimeThisYear('now', 'UTC'),
         ];
     }
 }

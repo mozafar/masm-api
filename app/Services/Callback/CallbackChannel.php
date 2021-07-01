@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Http;
 class CallbackChannel
 {
     /**
-     * Send web request to given notifiable
-     * 
+     * Send web request to given notifiable.
+     *
      * @throws CallbackFailedException
      */
     public function send($notifiable, Notification $notification): Response
