@@ -54,7 +54,7 @@ class StatusChanged extends Notification implements ShouldQueue
     }
 
 
-    public function toCallback($notifiable)
+    public function toCallback($notifiable): CallbackMessage
     {
         return CallbackMessage::create([
             'app_id' => $this->attributes->getAppId(),

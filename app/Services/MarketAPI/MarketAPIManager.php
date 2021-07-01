@@ -2,15 +2,13 @@
 
 namespace App\Services\MarketAPI;
 
-use App\Models\App;
-use App\Models\OS;
 use App\Models\Subscription;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Manager;
 
 class MarketAPIManager extends Manager
 {   
     protected $subscription;
+    protected $os;
 
     public function forSubscription(?Subscription $subscription): MarketAPIInterface
     {
