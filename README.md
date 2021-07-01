@@ -1,3 +1,4 @@
+[![StyleCI](https://github.styleci.io/repos/379903317/shield?branch=develop)](https://github.styleci.io/repos/379903317?branch=develop)
 ## Services
 All services are availabe in `app/Services` and contains:
 ### MarketAPI:
