@@ -8,7 +8,7 @@ use App\Models\Subscription;
 use App\Services\MarketAPI\MarketAPI;
 
 $subscription = Subscription::find(1);
-$status = MarketAPI::forSubscription($this->subscription)->checkSubscription();
+$status = MarketAPI::forSubscription($subscription)->checkSubscription();
 ```
 ### Callback:
 This module utilize laravel notifications system to send web request when a subscription status changes. it can bind to a model using `SendCallback` trait like this:
