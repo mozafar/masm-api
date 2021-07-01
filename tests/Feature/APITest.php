@@ -66,7 +66,9 @@ class APITest extends TestCase
     /** @test */
     public function it_can_check_subscription()
     {
-        $subscription = Subscription::factory()->create();
+        $subscription = Subscription::factory()->create([
+            'receipt' => '123'
+        ]);
         $token = $subscription->createToken();
         $response = $this->getJson("/api/check-subscription?token=$token");
         
