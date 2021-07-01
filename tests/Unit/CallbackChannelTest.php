@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Notifications\Notification;
-use App\Services\Callback\Exceptions\CallbackFailedException;
 use App\Services\Callback\CallbackChannel;
 use App\Services\Callback\CallbackMessage;
 use App\Services\Callback\CallbackSubject;
+use App\Services\Callback\Exceptions\CallbackFailedException;
 use App\Services\Callback\Exceptions\CallbackUrlNotSetException;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -19,7 +19,7 @@ class CallbackChannelTest extends TestCase
         Http::fake([
             'https://test-callback-url.com/200' => Http::response(),
             'https://test-callback-url.com/201' => Http::response(null, 201),
-            'https://test-callback-url.com/fail' => Http::response(null, 500)
+            'https://test-callback-url.com/fail' => Http::response(null, 500),
         ]);
     }
 
@@ -44,7 +44,6 @@ class CallbackChannelTest extends TestCase
      */
     public function it_throws_an_exception_when_it_could_not_send_the_notification()
     {
-
         $this->expectException(CallbackFailedException::class);
         $this->expectExceptionMessage('Callback responded with an error: ``');
         $this->expectExceptionCode(500);
@@ -54,13 +53,11 @@ class CallbackChannelTest extends TestCase
         $this->assertEquals(500, $response->status());
     }
 
-
     /**
      * @test
      */
     public function it_throws_an_exception_when_url_is_empty()
     {
-
         $this->expectException(CallbackUrlNotSetException::class);
         $this->expectExceptionCode(500);
 

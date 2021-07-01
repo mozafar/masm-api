@@ -25,10 +25,11 @@ class DeviceFactory extends Factory
     public function definition()
     {
         $os = (OS::count() < 2) ? OS::factory()->create() : OS::all()->random();
+
         return [
             'u_id' => $this->faker->randomNumber(null, false),
             'os_id' => $os->id,
-            'language' => $this->faker->randomElement(['EN', 'FA', 'AR', 'TR'])
+            'language' => $this->faker->randomElement(['EN', 'FA', 'AR', 'TR']),
         ];
     }
 }

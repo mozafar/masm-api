@@ -23,12 +23,12 @@ class AppFactory extends Factory
     public function definition()
     {
         $os = (OS::count() < 2) ? OS::factory()->create() : OS::all()->random();
+
         return [
             'os_id' => $os->id,
             'username' => $this->faker->userName(),
             'password' => $this->faker->password(),
-            'callback_url' => $this->faker->url()
+            'callback_url' => $this->faker->url(),
         ];
     }
-
 }

@@ -15,7 +15,7 @@ class MarketAPIBase
         $this->subscription = $subscription;
     }
 
-    public function verifyReceipt(string $receipt): bool|string
+    public function verifyReceipt(string $receipt): bool | string
     {
         if ((intval(substr($receipt, -1, 1)) % 2) !== 0) {
             return $this->getRandomDate();
@@ -27,11 +27,12 @@ class MarketAPIBase
     public function checkSubscription(?string $receipt = null): string
     {
         $receipt = $receipt ?? $this->subscription->receipt;
-        
+
         if ((intval(substr($receipt, -1, 1)) % 6) === 0) {
             throw new RateLimitException(null);
         }
         $statusArray = ['active', 'canceled'];
+
         return $statusArray[array_rand($statusArray)];
     }
 

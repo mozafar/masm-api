@@ -11,7 +11,7 @@ use Exception;
 trait SendCallback
 {
     /**
-     * Add ability to make notification for adding class
+     * Add ability to make notification for adding class.
      */
     private static function sendCallback(): Closure
     {
@@ -19,15 +19,14 @@ trait SendCallback
             $interfaces = class_implements($subscription);
             if (! in_array(CallbackAttributes::class, $interfaces)) {
                 throw new Exception('Callback observable should implement CallbackAttributes interface');
-                
             }
 
             // Check if status has changed
             if (! isset($subscription->getDirty()['status'])) {
                 return;
             }
-    
-            /** @var App*/
+
+            /** @var App */
             $notifiable = $subscription->app()->first();
             $notifiable->notify(new StatusChanged($subscription));
         };

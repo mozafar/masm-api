@@ -18,7 +18,7 @@ class CallbackTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        
+
         Notification::fake();
     }
 
@@ -26,7 +26,7 @@ class CallbackTest extends TestCase
     public function it_should_send_callback_notification()
     {
         $subscription = Subscription::factory()->create();
-        $app = $subscription->app()->first(); 
+        $app = $subscription->app()->first();
         Notification::assertSentTo(
             [$app], StatusChanged::class
         );

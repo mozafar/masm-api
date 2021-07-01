@@ -53,7 +53,6 @@ class StatusChanged extends Notification implements ShouldQueue
         ];
     }
 
-
     public function toCallback($notifiable): CallbackMessage
     {
         return CallbackMessage::create([
