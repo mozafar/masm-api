@@ -28,14 +28,16 @@ class AddSubscriptionsJob implements ShouldQueue
         $this->createBatch();
     }
 
-    private function createBatch()
+    private function createBatch(): void
     {
+        // Create an empty batch to add jobs later
         $batch = Bus::batch([])
             ->allowFailures() 
             ->finally(function () {
                 SubscriptionsProccessedEvent::dispatch();
             })->dispatch();
 
+        // Add job chunks to batch
         Subscription::active()
             ->cursor()
             ->map(fn (Subscription $subscription) => $this->createCheckSubscriptionJob($subscription))
@@ -46,7 +48,7 @@ class AddSubscriptionsJob implements ShouldQueue
             }); 
     }
 
-    private function createTestBatch()
+    private function createTestBatch(): void
     {
         $subscriptions = Subscription::active()
             ->get()

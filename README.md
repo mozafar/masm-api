@@ -38,7 +38,7 @@ Subscription::active()
         $batch->add($jobs);
     });
 ```
-as soon as first chunk added to queue `CheckSubscriptionJob` starts for each subscription and checks the status using ‍`MarketAPI`. to speed up adding in invoking jobs `redis`. every job in case of failure retried twice.  
+as soon as first chunk added to queue `CheckSubscriptionJob` starts for each subscription and checks the status using ‍`MarketAPI`. to speed up adding and invoking jobs `redis` driver is used. every job in case of failure will be retried twice.  
 To start woker use:
 ```sh
 php artisan horizon
