@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DeviceRegisterRequest;
-use App\Models\Subscription;
 use App\Models\Device;
+use App\Models\Subscription;
 use App\Services\MarketAPI\MarketAPI;
 use Illuminate\Http\Request;
 
@@ -15,11 +15,11 @@ class DeviceController extends Controller
         $device = Device::create($request->validated());
         $subscription = Subscription::create([
             'device_id' => $device->id,
-            'app_id' => $request->input('app_id')
+            'app_id' => $request->input('app_id'),
         ]);
 
         return response()->json([
-            'token' => $subscription->createToken()
+            'token' => $subscription->createToken(),
         ]);
     }
 
@@ -29,8 +29,9 @@ class DeviceController extends Controller
         $checkResult = MarketAPI::forSubscription($subscription)->checkSubscription();
         $subscription->status = $checkResult;
         $subscription->save();
+
         return response()->json([
-            'status' => $subscription->status
+            'status' => $subscription->status,
         ]);
     }
 
@@ -43,8 +44,9 @@ class DeviceController extends Controller
             $subscription->expires_at = $verifyResult;
             $subscription->status = 'active';
             $subscription->save();
+
             return response()->json([
-                $verifyResult
+                $verifyResult,
             ]);
         }
 

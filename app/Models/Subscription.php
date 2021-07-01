@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 class Subscription extends Pivot implements CallbackAttributes
 {
     use HasFactory, SendCallback;
-    
+
     protected $table = 'subscriptions';
     public $incrementing = true;
     public $timestamps = true;
@@ -49,7 +49,7 @@ class Subscription extends Pivot implements CallbackAttributes
         $plainTextToken = Str::random(40);
         $this->token = hash('sha256', $plainTextToken);
         $this->save();
-        
+
         return $this->id.'|'.$plainTextToken;
     }
 

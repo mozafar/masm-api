@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Support\Arr;
 use App\Services\Callback\CallbackMessage;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 class CallbackMessageTest extends TestCase

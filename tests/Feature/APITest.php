@@ -20,7 +20,7 @@ class APITest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        
+
         Notification::fake();
     }
 
@@ -32,10 +32,10 @@ class APITest extends TestCase
             'u_id' => 1,
             'app_id' => App::factory()->create()->id,
             'os_id' => $os->id,
-            'language' => 'EN'
+            'language' => 'EN',
         ]);
         $response->assertOk();
-        $this->assertTrue(!empty($response['token']));
+        $this->assertTrue(! empty($response['token']));
     }
 
     /** @test */
@@ -46,20 +46,20 @@ class APITest extends TestCase
             'u_id' => 1,
             'app_id' => App::factory()->create()->id,
             'os_id' => $os->id,
-            'language' => 'EN'
+            'language' => 'EN',
         ]);
 
         $response2 = $this->postJson('/api/register', [
             'u_id' => 1,
             'app_id' => App::factory()->create()->id,
             'os_id' => $os->id,
-            'language' => 'EN'
+            'language' => 'EN',
         ]);
 
         $response1->assertOk();
         $response2->assertOk();
-        $this->assertTrue(!empty($response1['token']));
-        $this->assertTrue(!empty($response2['token']));
+        $this->assertTrue(! empty($response1['token']));
+        $this->assertTrue(! empty($response2['token']));
         $this->assertNotEquals($response1['token'], $response2['token']);
     }
 
@@ -67,17 +67,17 @@ class APITest extends TestCase
     public function it_can_check_subscription()
     {
         $subscription = Subscription::factory()->create([
-            'receipt' => '123'
+            'receipt' => '123',
         ]);
         $token = $subscription->createToken();
         $response = $this->getJson("/api/check-subscription?token=$token");
-        
-        $app = $subscription->app()->first(); 
+
+        $app = $subscription->app()->first();
         Notification::assertSentTo(
             [$app], StatusChanged::class
         );
         $response->assertOk();
-        $this->assertTrue(!empty($response['status']));
+        $this->assertTrue(! empty($response['status']));
     }
 
     /** @test */
@@ -88,10 +88,10 @@ class APITest extends TestCase
 
         $response = $this->postJson('/api/purchase', [
             'token' => $token,
-            'receipt' => '12345'
+            'receipt' => '12345',
         ]);
 
-        $app = $subscription->app()->first(); 
+        $app = $subscription->app()->first();
         Notification::assertSentTo(
             [$app], StatusChanged::class
         );
