@@ -21,7 +21,7 @@ class MockMarketAPITest extends TestCase
     public function it_return_false_when_reciept_is_even()
     {
         $response = MarketAPI::driver('google-play')->verifyReceipt('1234');
-        
+
         $this->assertFalse($response);
     }
 
@@ -29,7 +29,7 @@ class MockMarketAPITest extends TestCase
     public function it_return_subscription_status()
     {
         $response = MarketAPI::driver('google-play')->checkSubscription('123');
-        
+
         $this->assertContains($response, ['pending', 'active', 'canceled']);
     }
 
@@ -55,5 +55,4 @@ class MockMarketAPITest extends TestCase
             'App\Services\MarketAPI\MarketAPIServiceProvider',
         ];
     }
-
 }

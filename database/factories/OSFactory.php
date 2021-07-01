@@ -23,7 +23,7 @@ class OSFactory extends Factory
     {
         return [
             'id' => $this->faker->unique()->randomElement([1, 2]),
-            'name' => $this->faker->unique()->randomElement(['iOS', 'Android'])
+            'name' => $this->faker->unique()->randomElement(['iOS', 'Android']),
         ];
     }
 }

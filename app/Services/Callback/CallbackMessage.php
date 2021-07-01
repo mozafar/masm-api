@@ -13,7 +13,6 @@ class CallbackMessage
         return new static($data);
     }
 
-
     public function __construct($data = [])
     {
         $this->data = $data;
@@ -37,7 +36,7 @@ class CallbackMessage
     {
         return [
             'data' => $this->data,
-            'headers' => $this->headers
+            'headers' => $this->headers,
         ];
     }
 }

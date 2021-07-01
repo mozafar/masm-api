@@ -39,7 +39,7 @@ class CheckSubscriptionJob implements ShouldQueue
     public function handle()
     {
         $status = MarketAPI::forSubscription($this->subscription)->checkSubscription();
-        
+
         if ($status === 'active') {
             $this->subscription->status = 'canceled';
             $this->subscription->save();
