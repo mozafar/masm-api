@@ -10,6 +10,9 @@ use Exception;
 
 trait SendCallback
 {
+    /**
+     * Add ability to make notification for adding class
+     */
     private static function sendCallback(): Closure
     {
         return function (Subscription $subscription) {
@@ -18,7 +21,8 @@ trait SendCallback
                 throw new Exception('Callback observable should implement CallbackAttributes interface');
                 
             }
-    
+
+            // Check if status has changed
             if (! isset($subscription->getDirty()['status'])) {
                 return;
             }
